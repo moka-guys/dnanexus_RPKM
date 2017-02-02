@@ -10,48 +10,39 @@
     {
       "name": "bamfiles",
       "label": "bamfiles",
-      "help": "A samamba bedfile.",
+      "help": "An array of bamfiles.",
+      "class": "array:file",
+      "patterns": ["*.bam","*.bai"]
+
+    },
+  {
+      "name": "bedfile",
+      "label": "bedfile",
+      "help": "bed file.",
       "class": "file",
       "patterns": ["*.bed"]
-    },
-  {
-      "name": "bamfile",
-      "label": "bamfile",
-      "help": "bam file.",
-      "class": "file",
-      "patterns": ["*.bam"]
-    },
-  {
-      "name": "bam_index",
-      "label": "bamfile_index",
-      "help": "bam index.",
-      "class": "file",
-      "patterns": ["*.bai"]
     }
   ],
   "outputSpec": [
     {
-      "name": "chanjo_output",
-      "label": "chanjo output",
-      "help": "A csv file containing the coverage for each exoncoordinate-sorted BAM file with the resulting mappings.",
+      "name": "conifer_output",
+      "label": "conifer output",
+      "help": "An array of files from conifer.",
       "class": "array:file"
     }
   ],
   "runSpec":  {
-    "execDepends": [
-      {
-        "name": "bedtools"
-      },
-      {
-        "name": "sqlite3"
-      }
-    ],
     "systemRequirements": {
       "main": {
-        "instanceType": "mem1_ssd1_x32"
+        "instanceType": "mem1_ssd1_x4"
       }
     },
     "file": "src/code.sh",
     "interpreter": "bash"
+  },
+    "access": {
+    "network": [  
+    "*"
+    ]
   }
 }
