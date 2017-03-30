@@ -10,8 +10,8 @@ CNV analysis of custom panels
 * An array of BAM and index (.bai) files
 * A BED file for the CNV regions 
   * This bedfile must have a header and 'chr' removed eg:
-    > chr start  stop    name
-    > 11    108093508    108093963    ATM_Ex01_PM
+    `chr start  stop    name`
+    `11    108093508    108093963    ATM_Ex01_PM`
 
 ## What does this app output?
 Within a folder names conifer_output the App produces:
