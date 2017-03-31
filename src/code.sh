@@ -8,16 +8,39 @@ set -e -x -o pipefail
 #
 # Download inputs
 #
-dx-download-all-inputs
+dx download "$bedfile"
+
+to_remove="data.bed"
+#echo $bamfile_name | sed -e "s/$to_remove$//"
+pannum=$(echo $bamfile_name | sed "s/$to_remove//")
+
+
+#pannum=${$bamfile_name%$to_remove}
+echo $pannum
+#pannum="${pannum}"
+
+#read the api key as a variable
+API_KEY=$(cat '/home/dnanexus/auth_key')
+
+
 
 #make test dir
 mkdir to_test
+cd to_test
+echo $project_name
+dx download $project_name:output/*$pannum*001.ba* --auth $API_KEY
+filecount="$(ls *"$pannum"* | grep . -c)"
+if [[ $filecount <6 ]]; then
+	echo "LESS THAN THREE BAM FILES FOUND FOR THIS PAN NUMBER" 1>&2
+	exit 1
+fi
+cd ..
 
 #move all files from the input to test dir
-for input in /home/dnanexus/in/bamfiles/*; do if [ -d "$input" ]; then mv $input/* to_test/; fi; done
+#for input in /home/dnanexus/in/bamfiles/*; do if [ -d "$input" ]; then mv $input/* to_test/; fi; done
 
 #make output dir
-mkdir -p /home/dnanexus/out/conifer_output/conifer_output/
+mkdir -p /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/
 
 # Download RPKM from github
 GITHUB_KEY=$(cat '/home/dnanexus/github_key')
@@ -41,16 +64,16 @@ conda install pysam=0.8.3 matplotlib=2.0.0 numpy=1.11.3 pytables -y
 
 
 # run the RPKM wrapper script. --bamlist is a folder containing deduplicated bams. 
-python RPKM/rpkmanalysis.py --bamlist /home/dnanexus/to_test/ --output /home/dnanexus/out/conifer_output/conifer_output/ --probes /home/dnanexus/in/bedfile/$bedfile_prefix.bed
+python RPKM/rpkmanalysis.py --bamlist /home/dnanexus/to_test/ --output /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/ --probes /home/dnanexus/$bedfile_prefix.bed
 
 # convert the spaces to tabs in the summary.txt 
-sed "s/ \+/\t/g" /home/dnanexus/out/conifer_output/conifer_output/summary.txt > summary_tab.txt
+sed "s/ \+/\t/g" /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/summary.txt > summary_tab.txt
 
 #convert bed file to correct line endings
-dos2unix -n /home/dnanexus/in/bedfile/$bedfile_prefix.bed $bedfile_prefix.converted.bed
+dos2unix -n /home/dnanexus/$bedfile_prefix.bed $bedfile_prefix.converted.bed
 
 #write the bed file and conifer summary output side by side.
-pr -t -m -J $bedfile_prefix.converted.bed summary_tab.txt > /home/dnanexus/out/conifer_output/conifer_output/combined_bed_summary.txt 
+pr -t -m -J $bedfile_prefix.converted.bed summary_tab.txt > /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/combined_bed_summary_$bedfile_prefix.txt 
 
 # Upload results
 dx-upload-all-outputs

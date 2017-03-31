@@ -11,12 +11,10 @@
   "dxapi": "1.0.0",
   "inputSpec": [
     {
-      "name": "bamfiles",
-      "label": "bamfiles",
-      "help": "An array of bamfiles.",
-      "class": "array:file",
-      "patterns": ["*.bam","*.bai"]
-
+      "name": "project_name",
+      "label": "project_name",
+      "help": "The project containing the bamfiles.",
+      "class": "string"
     },
   {
       "name": "bedfile",
@@ -24,6 +22,12 @@
       "help": "bed file.",
       "class": "file",
       "patterns": ["*.bed"]
+    },
+  {
+      "name": "bamfile_name",
+      "label": "bamfile_name",
+      "help": "bamfile_name",
+      "class": "string"
     }
   ],
   "outputSpec": [
