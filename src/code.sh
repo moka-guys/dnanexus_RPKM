@@ -30,7 +30,7 @@ cd to_test
 echo $project_name
 dx download $project_name:output/*$pannum*001.ba* --auth $API_KEY
 filecount="$(ls *"$pannum"* | grep . -c)"
-if [[ $filecount <6 ]]; then
+if (( $filecount < 6 )); then
 	echo "LESS THAN THREE BAM FILES FOUND FOR THIS PAN NUMBER" 1>&2
 	exit 1
 fi
@@ -46,8 +46,8 @@ mkdir -p /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/
 GITHUB_KEY=$(cat '/home/dnanexus/github_key')
 git clone https://$GITHUB_KEY@github.com/moka-guys/RPKM.git
 cd RPKM
-git checkout dnanexus
-#git checkout dnanexus_production
+#git checkout dnanexus
+git checkout dnanexus_production
 cd ..
 
 # install Anaconda
@@ -72,8 +72,11 @@ sed "s/ \+/\t/g" /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefi
 #convert bed file to correct line endings
 dos2unix -n /home/dnanexus/$bedfile_prefix.bed $bedfile_prefix.converted.bed
 
+#add a empty header line to bed to ensure the two files match up
+echo -e "\t\t\t" | cat - $bedfile_prefix.converted.bed > $bedfile_prefix.converted_header.bed
+
 #write the bed file and conifer summary output side by side.
-pr -t -m -J $bedfile_prefix.converted.bed summary_tab.txt > /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/combined_bed_summary_$bedfile_prefix.txt 
+pr -t -m -J $bedfile_prefix.converted_header.bed summary_tab.txt > /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/combined_bed_summary_$bedfile_prefix.txt 
 
 # Upload results
 dx-upload-all-outputs
