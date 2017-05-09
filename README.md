@@ -15,18 +15,17 @@ A minimum of three samples of the same panel must be present in the project.
   * This bedfile must have a header in the format:  
       `chr start  stop    name`
   *  Each entry must have  'chr' removed eg:
-  `11    108093508    108093963    ATM_Ex01_PM`
-
-An app (RPKM_bedfile) has been created which can be used to convert the data.bed bed file produced by mokabed into the desired format (RPKM.bed)
+      `11    108093508    108093963    ATM_Ex01_PM`
+  *  An app (RPKM_bedfile) has been created which can be used to convert the data.bed bed file produced by mokabed into the desired format (RPKM.bed)
 
 * A project in which to find bam files
-  * BAM files are found in /output/
+  * BAM files must be found in /output/
 * A panel number
-  * The RPKM bed file will have a different panel number (for +/-50bp) therefore the panel number which corresponds to the +/-10bp Panel number is required to download the relevant bed files.  
+  * The RPKM bed file will have a different panel number (for +/-50bp) therefore the panel number which corresponds to the +/-10bp panel is required to download the relevant bed files.  
 
 
 ## What does this app output?
-Within a folder names conifer_output the App produces:
+Within a folder named conifer_output the App produces:
 * A text file for each BAM input
 * summary.txt - A file with a column containing the RPKM value for each sample
 * combined_bed_summary.txt - The summary.txt file merged with the bedfile to give the coordinates for each RPKM value.
