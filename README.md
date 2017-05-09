@@ -1,19 +1,28 @@
-# dnanexus_RPKM v1.1
+# dnanexus_RPKM v1.0
 
 ## What does this app do?
 This app uses conifer to perform RPKM analysis.
 
 ## What are typical use cases for this app?
-CNV analysis of custom panels
+This app has been designed to be run in an automated fashion following the end of a sequencing run.
+
+Using the inputs described below BAM files for each panel code are downloaded.
+A minimum of three samples of the same panel must be present in the project. 
+
 
 ## What data are required for this app to run?
-* An array of BAM and index (.bai) files
 * A BED file for the CNV regions 
-  * This bedfile must have a header and 'chr' removed eg:
-  
+  * This bedfile must have a header in the format:  
       `chr start  stop    name`
-      
-       `11    108093508    108093963    ATM_Ex01_PM`
+  *  Each entry must have  'chr' removed eg:
+  `11    108093508    108093963    ATM_Ex01_PM`
+
+An app (RPKM_bedfile) has been created which can be used to convert the data.bed bed file produced by mokabed into the desired format (RPKM.bed)
+
+* A project in which to find bam files
+  * BAM files are found in /output/
+* A panel number
+  * The RPKM bed file will have a different panel number (for +/-50bp) therefore the panel number which corresponds to the +/-10bp Panel number is required to download the relevant bed files.  
 
 
 ## What does this app output?
@@ -26,12 +35,13 @@ Within a folder names conifer_output the App produces:
 This app is based on the code in the github repo https://github.com/moka-guys/RPKM.
 This code enables a list of BAM files to be fed into conifer, and the outputs summarised into a single file.
 
-1. Clone the github repo
-2. Change to the dnanexus_production branch
-3. Installs Miniconda and the required packages
-4. Runs conifer
-5. Converts the bed file and summary.txt into formats which can be merged
-6. Merge these files
+1. Download the BED files that correspond to the given panel number. Check there are at least 3 samples for this panel number.
+2. Clone the github repo
+3. Change to the dnanexus_production branch
+4. Installs Miniconda and the required packages
+5. Runs conifer
+6. Converts the bed file and summary.txt into formats which can be merged
+7. Merge these files
 
 ## Custom modifications
 * The app was made by the Viapath Genome Informatics section 
