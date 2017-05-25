@@ -18,6 +18,7 @@ A minimum of three samples of the same panel must be present in the project.
   *  An app (RPKM_bedfile) has been created which can be used to convert the data.bed bed file produced by mokabed into the desired format (RPKM.bed)
 * A project in which to find BAM files
   * BAM files must be found in /output/
+  * Either deduplicated or 'pre-processed' BAM files can be used (the app downloads the preprocessed bam file)
 * The variant calling bed file Pan number
   * The RPKM bed file will have a different panel number (for +/-50bp) therefore the panel number which corresponds to the +/-10bp panel is required to download the relevant BAM files.  
 
