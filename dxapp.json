@@ -1,0 +1,60 @@
+{
+  "name": "RPKM_using_conifer",
+  "title": "RPKM using conifer",
+  "summary": "v1.0  Perform CNV analysis using conifer",
+  "properties": {
+    "github release": "v1.0"
+  },
+  "tags": [
+    "CNV"
+  ],
+  "dxapi": "1.0.0",
+  "inputSpec": [
+    {
+      "name": "project_name",
+      "label": "project_name",
+      "help": "The project containing the bamfiles.",
+      "class": "string"
+    },
+  {
+      "name": "bedfile",
+      "label": "bedfile",
+      "help": "bed file.",
+      "class": "file",
+      "patterns": ["*.bed"]
+    },
+  {
+      "name": "bamfile_name",
+      "label": "bamfile_name",
+      "help": "bamfile_name",
+      "class": "string"
+    }
+  ],
+  "outputSpec": [
+    {
+      "name": "conifer_output",
+      "label": "conifer output",
+      "help": "An array of files from conifer.",
+      "class": "array:file"
+    }
+  ],
+  "runSpec":  {
+      "execDepends": [
+      {
+        "name": "dos2unix"
+      }
+      ],
+    "systemRequirements": {
+      "main": {
+        "instanceType": "mem1_ssd1_x4"
+      }
+    },
+    "file": "src/code.sh",
+    "interpreter": "bash"
+  },
+    "access": {
+    "network": [  
+    "*"
+    ]
+  }
+}
