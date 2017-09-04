@@ -1,4 +1,4 @@
-# dnanexus_RPKM v1.0
+# dnanexus_RPKM v1.1
 
 ## What does this app do?
 This app uses conifer to perform RPKM analysis.
@@ -27,7 +27,7 @@ A minimum of three samples of the same panel must be present in the project.
 Within a folder named conifer_output a folder is created for that Pan number. Within this folder the following files are created:
 * A text file for each BAM input
 * summary.txt - A file with a column containing the RPKM value for each sample
-* combined_bed_summary.txt - The summary.txt file merged with the bedfile to give the coordinates for each RPKM value.
+* combined_bed_summary_NGS999A_Pan1000_RPKM.txt  - The summary.txt file merged with the bedfile to give the coordinates for each RPKM value.
 
 ## How does this app work?
 This app is based on the code in the github repo https://github.com/moka-guys/RPKM.

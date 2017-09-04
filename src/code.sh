@@ -9,44 +9,47 @@ set -e -x -o pipefail
 # Download inputs
 #
 dx download "$bedfile"
-
+#set string to remove from bedfile name
 to_remove="data.bed"
-#echo $bamfile_name | sed -e "s/$to_remove$//"
+#capture the pan number for RPKM panel number
 pannum=$(echo $bamfile_name | sed "s/$to_remove//")
-
-
-#pannum=${$bamfile_name%$to_remove}
 echo $pannum
-#pannum="${pannum}"
 
-#read the api key as a variable
+# split project name to get the NGS run number
+run=${project_name##*_}
+
+
+#read the DNA Nexus api key as a variable
 API_KEY=$(cat '/home/dnanexus/auth_key')
 
-
-
-#make test dir
+#make and cd to test dir
 mkdir to_test
 cd to_test
-echo $project_name
+
+#download all the BAM and BAI files for this project/pan number
 dx download $project_name:output/*$pannum*001.ba* --auth $API_KEY
+
+#count the files. make sure there are at least 3 samples for this pan number, else stop
 filecount="$(ls *"$pannum"* | grep . -c)"
 if (( $filecount < 6 )); then
 	echo "LESS THAN THREE BAM FILES FOUND FOR THIS PAN NUMBER" 1>&2
 	exit 1
 fi
+
+# cd out of to_test
 cd ..
 
-#move all files from the input to test dir
-#for input in /home/dnanexus/in/bamfiles/*; do if [ -d "$input" ]; then mv $input/* to_test/; fi; done
 
 #make output dir
 mkdir -p /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/
 
 # Download RPKM from github
+# capture github API key
 GITHUB_KEY=$(cat '/home/dnanexus/github_key')
+#clone repo
 git clone https://$GITHUB_KEY@github.com/moka-guys/RPKM.git
 cd RPKM
-#git checkout dnanexus
+#switch to branch containing code to run
 git checkout dnanexus_production
 cd ..
 
@@ -62,7 +65,6 @@ conda config --add channels r
 conda config --add channels bioconda
 conda install pysam=0.8.3 matplotlib=2.0.0 numpy=1.11.3 pytables -y
 
-
 # run the RPKM wrapper script. --bamlist is a folder containing deduplicated bams. 
 python RPKM/rpkmanalysis.py --bamlist /home/dnanexus/to_test/ --output /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/ --probes /home/dnanexus/$bedfile_prefix.bed
 
@@ -76,7 +78,7 @@ dos2unix -n /home/dnanexus/$bedfile_prefix.bed $bedfile_prefix.converted.bed
 echo -e "\t\t\t" | cat - $bedfile_prefix.converted.bed > $bedfile_prefix.converted_header.bed
 
 #write the bed file and conifer summary output side by side.
-pr -t -m -J $bedfile_prefix.converted_header.bed summary_tab.txt > /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/combined_bed_summary_$bedfile_prefix.txt 
+pr -t -m -J $bedfile_prefix.converted_header.bed summary_tab.txt > /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/combined_bed_summary_$run_$bedfile_prefix.txt 
 
 # Upload results
 dx-upload-all-outputs
