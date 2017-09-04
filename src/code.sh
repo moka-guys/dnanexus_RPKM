@@ -13,7 +13,7 @@ dx download "$bedfile"
 to_remove="data.bed"
 #capture the pan number for RPKM panel number
 pannum=$(echo $bamfile_name | sed "s/$to_remove//")
-echo $pannum
+#echo $pannum
 
 # split project name to get the NGS run number
 run=${project_name##*_}
@@ -39,7 +39,6 @@ fi
 # cd out of to_test
 cd ..
 
-
 #make output dir
 mkdir -p /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/
 
@@ -59,7 +58,6 @@ bash ~/Miniconda2-latest-Linux-x86_64.sh -b -p $HOME/Miniconda
 #export to path
 export PATH="$HOME/Miniconda/bin:$PATH"
 
-
 # use conda to install required packages
 conda config --add channels r
 conda config --add channels bioconda
@@ -78,7 +76,7 @@ dos2unix -n /home/dnanexus/$bedfile_prefix.bed $bedfile_prefix.converted.bed
 echo -e "\t\t\t" | cat - $bedfile_prefix.converted.bed > $bedfile_prefix.converted_header.bed
 
 #write the bed file and conifer summary output side by side.
-pr -t -m -J $bedfile_prefix.converted_header.bed summary_tab.txt > /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/combined_bed_summary_$run_$bedfile_prefix.txt 
+pr -t -m -J $bedfile_prefix.converted_header.bed summary_tab.txt > /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/combined_bed_summary_${run}_${bedfile_prefix}.txt 
 
 # Upload results
 dx-upload-all-outputs
