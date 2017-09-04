@@ -1,9 +1,9 @@
 {
   "name": "RPKM_using_conifer",
   "title": "RPKM using conifer",
-  "summary": "v1.0  Perform CNV analysis using conifer",
+  "summary": "v1.1  Perform CNV analysis using conifer",
   "properties": {
-    "github release": "v1.0"
+    "github release": "v1.1"
   },
   "tags": [
     "CNV"
