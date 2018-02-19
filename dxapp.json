@@ -39,6 +39,8 @@
     }
   ],
   "runSpec": {
+    "distribution": "Ubuntu",
+    "release": "14.04",
     "execDepends": [
       {
         "name": "dos2unix"
