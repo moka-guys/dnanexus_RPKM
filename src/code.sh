@@ -61,7 +61,7 @@ export PATH="$HOME/Miniconda/bin:$PATH"
 # use conda to install required packages
 conda config --add channels r
 conda config --add channels bioconda
-conda install zlib=1.2.8 pysam=0.8.3 matplotlib=2.0.0 numpy=1.11.3 pytables -y
+conda install zlib=1.2.8 pysam=0.8.3 matplotlib=2.0.0 numpy=1.11.3 pytables=3.3.0 -y
 
 # run the RPKM wrapper script. --bamlist is a folder containing deduplicated bams. 
 python RPKM/rpkmanalysis.py --bamlist /home/dnanexus/to_test/ --output /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/ --probes /home/dnanexus/$bedfile_prefix.bed
