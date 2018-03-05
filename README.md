@@ -1,4 +1,4 @@
-# dnanexus_RPKM v1.2
+# dnanexus_RPKM v1.3
 
 ## What does this app do?
 This app uses conifer to perform RPKM analysis.
