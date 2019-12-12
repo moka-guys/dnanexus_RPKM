@@ -1,12 +1,12 @@
 {
-  "name": "RPKM_using_conifer_v1.4",
-  "title": "RPKM using conifer v1.4",
-  "summary": "v1.4  Perform CNV analysis using conifer",
+  "name": "RPKM_using_conifer_v1.5",
+  "title": "RPKM using conifer v1.5",
+  "summary": "v1.5  Perform CNV analysis using conifer",
   "tags": [
     "CNV"
   ],
   "properties": {
-    "github release": "v1.4"
+    "github release": "v1.5"
   },
   "dxapi": "1.0.0",
   "inputSpec": [
@@ -24,9 +24,9 @@
       "patterns": ["*.bed"]
     },
     {
-      "name": "bamfile_name",
-      "label": "bamfile_name",
-      "help": "bamfile_name",
+      "name": "bamfile_pannumbers",
+      "label": "bamfile_pannumbers",
+      "help": "comma seperated string on Pannumbers found within the BAM file name",
       "class": "string"
     }
   ],
