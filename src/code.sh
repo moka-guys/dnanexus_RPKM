@@ -11,9 +11,6 @@ run=${project_name##*_}
 
 #read the DNA Nexus api key as a variable
 API_KEY=$(dx cat project-FQqXfYQ0Z0gqx7XG9Z2b4K43:mokaguys_nexus_auth_key)
-# capture github API key
-GITHUB_KEY=$(dx cat project-FQqXfYQ0Z0gqx7XG9Z2b4K43:mokabed_github_key)
-
 
 #make output dir
 mkdir -p /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/
