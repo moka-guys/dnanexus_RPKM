@@ -35,11 +35,11 @@ Within a folder named conifer_output a folder is created using the Pannumber of 
 
 ## How does this app work?
 This app is based on the code in the github repo https://github.com/moka-guys/RPKM.
+This repository was cloned (danexus_production branch at release v1.0)
+
 This code enables a list of BAM files to be fed into conifer, and the outputs summarised into a single file.
 
 1. Download the BAM files that correspond to the given panel number(s). Check there are at least 3 samples.
-2. Clone the github repo
-3. Change to the dnanexus_production branch
 4. Installs Miniconda and the required packages
 5. Runs conifer
 6. Converts the bed file and summary.txt into formats which can be merged

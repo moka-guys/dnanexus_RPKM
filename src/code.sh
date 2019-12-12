@@ -49,14 +49,6 @@ fi
 # cd out of to_test
 cd ..
 
-### Download RPKM from github
-# clone repo
-git clone https://$GITHUB_KEY@github.com/moka-guys/RPKM.git
-cd RPKM
-#switch to branch containing code to run
-git checkout dnanexus_production
-cd ..
-
 # install Anaconda
 bash ~/Miniconda2-latest-Linux-x86_64.sh -b -p $HOME/Miniconda
 

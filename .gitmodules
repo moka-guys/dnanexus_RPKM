@@ -1,0 +1,3 @@
+[submodule "resources/home/dnanexus/RPKM"]
+	path = resources/home/dnanexus/RPKM
+	url = https://github.com/moka-guys/RPKM.git
