@@ -5,51 +5,45 @@
 # and to output each line as it is executed -- useful for debugging
 set -e -x -o pipefail
 
-#
-# Download inputs
-#
-dx download "$bedfile"
-#set string to remove from bedfile name
-to_remove="data.bed"
-#capture the pan number for RPKM panel number
-pannum=$(echo $bamfile_name | sed "s/$to_remove//")
-#echo $pannum
-
+### Set up parameters
 # split project name to get the NGS run number
 run=${project_name##*_}
-
 
 #read the DNA Nexus api key as a variable
 API_KEY=$(dx cat project-FQqXfYQ0Z0gqx7XG9Z2b4K43:mokaguys_nexus_auth_key)
 
-#make and cd to test dir
+#make output dir
+mkdir -p /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/
+# make folder to hold downloaded files
 mkdir to_test
+
+
+#
+# Download inputs
+#
+dx download "$bedfile"
+
+
+# make and cd to test dir
 cd to_test
 
-#download all the BAM and BAI files for this project/pan number
-dx download $project_name:output/*$pannum*001.ba* --auth $API_KEY
+# $bamfile_pannumbers is a comma seperated list of pannumbers that should be analysed together.
+# split this into an array and loop through to download BAM and BAI files
+IFS=',' read -ra pannum_array <<<  $bamfile_pannumbers
+for panel in ${pannum_array[@]}
+do 
+	#download all the BAM and BAI files for this project/pan number
+	dx download $project_name:output/*$panel*001.ba* --auth $API_KEY
+done
 
 #count the files. make sure there are at least 3 samples for this pan number, else stop
-filecount="$(ls *"$pannum"* | grep . -c)"
+filecount="$(ls *001.ba* | grep . -c)"
 if (( $filecount < 6 )); then
-	echo "LESS THAN THREE BAM FILES FOUND FOR THIS PAN NUMBER" 1>&2
+	echo "LESS THAN THREE BAM FILES FOUND FOR THIS ANALYSIS" 1>&2
 	exit 1
 fi
 
 # cd out of to_test
-cd ..
-
-#make output dir
-mkdir -p /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/
-
-# Download RPKM from github
-# capture github API key
-GITHUB_KEY=$(dx cat project-FQqXfYQ0Z0gqx7XG9Z2b4K43:mokabed_github_key)
-#clone repo
-git clone https://$GITHUB_KEY@github.com/moka-guys/RPKM.git
-cd RPKM
-#switch to branch containing code to run
-git checkout dnanexus_production
 cd ..
 
 # install Anaconda
