@@ -39,7 +39,7 @@ done
 #count the files. make sure there are at least 3 samples for this pan number, else stop
 filecount="$(ls *001.ba* | grep . -c)"
 if (( $filecount < 6 )); then
-	echo "LESS THAN THREE BAM FILES FOUND FOR THIS PAN NUMBER" 1>&2
+	echo "LESS THAN THREE BAM FILES FOUND FOR THIS ANALYSIS" 1>&2
 	exit 1
 fi
 

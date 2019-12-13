@@ -26,7 +26,7 @@
     {
       "name": "bamfile_pannumbers",
       "label": "bamfile_pannumbers",
-      "help": "comma seperated string on Pannumbers found within the BAM file name",
+      "help": "comma separated string on pan numbers found within the BAM file name",
       "class": "string"
     }
   ],
