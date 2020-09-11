@@ -32,8 +32,12 @@ cd to_test
 IFS=',' read -ra pannum_array <<<  $bamfile_pannumbers
 for panel in ${pannum_array[@]}
 do 
-	#download all the BAM and BAI files for this project/pan number
-	dx download $project_name:output/*$panel*001.ba* --auth $API_KEY
+	# check there is at least one bam file with that pan number to download other wise the dx download command will fail
+	if (( $(dx ls $project_name:output/*001.ba* --auth $API_KEY | grep $panel -c) > 0 ));
+	then
+		#download all the BAM and BAI files for this project/pan number
+		dx download $project_name:output/*$panel*001.ba* --auth $API_KEY
+	fi
 done
 
 #count the files. make sure there are at least 3 samples for this pan number, else stop
