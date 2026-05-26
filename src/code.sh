@@ -10,7 +10,9 @@ set -e -x -o pipefail
 run=${project_name##*_}
 
 #read the DNA Nexus api key as a variable
-API_KEY=$(dx cat project-J343FKBKJqkzp6qk6f6BYXB8:mokaguys_nexus_auth_key)
+API_KEY_wquotes=$(echo $DX_SECURITY_CONTEXT |  jq '.auth_token')
+API_KEY=$(echo "$API_KEY_wquotes" | sed 's/"//g')
+echo "$API_KEY"
 
 #make output dir
 mkdir -p /home/dnanexus/out/conifer_output/conifer_output/$bedfile_prefix/
