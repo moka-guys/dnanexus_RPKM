@@ -10,8 +10,7 @@ set -e -x -o pipefail
 run=${project_name##*_}
 
 #read the DNA Nexus api key as a variable
-API_KEY_wquotes=$(echo $DX_SECURITY_CONTEXT |  jq '.auth_token')
-API_KEY=$(echo "$API_KEY_wquotes" | sed 's/"//g')
+API_KEY=$(jq -r '.auth_token' <<< "$DX_SECURITY_CONTEXT")
 echo "$API_KEY"
 
 #make output dir
